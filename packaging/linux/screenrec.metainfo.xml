@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>screenrec</id>
+  <name>ScreenRec</name>
+  <summary>Fast, high-quality screen recorder</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>
+      ScreenRec records your whole screen, a single window or a region, with
+      system audio, microphone and an optional webcam overlay. It supports
+      pause and resume, countdowns, automatic stop, screenshots and light,
+      dark and system appearance.
+    </p>
+  </description>
+  <launchable type="desktop-id">screenrec.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+  </categories>
+  <content_rating type="oars-1.1"/>
+</component>

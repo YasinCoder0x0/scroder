@@ -1,0 +1,111 @@
+[package]
+name = "screen_rec"
+version = "0.2.0"
+edition = "2021"
+description = "A fast, minimal, high-quality screen recorder for Windows, macOS and Linux"
+authors = ["ScreenRec"]
+license = "MIT"
+build = "build.rs"
+homepage = "https://github.com/YasinCoder0x0/scroder"
+repository = "https://github.com/YasinCoder0x0/scroder"
+
+[dependencies]
+anyhow = "1.0.104"
+crossbeam-channel = "0.5.17"
+eframe = { version = "0.37.0", default-features = false, features = [
+    "glow",
+    "default_fonts",
+    "accesskit",
+    "clipboard",
+    "x11",
+    "wayland",
+] }
+egui = "0.37.0"
+parking_lot = "0.13.0"
+rfd = { version = "0.17.2", default-features = false, features = ["xdg-portal"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+
+# ---------------------------------------------------------------------------
+# Windows: native Windows Graphics Capture + Media Foundation + WASAPI backend
+# ---------------------------------------------------------------------------
+[target.'cfg(windows)'.dependencies]
+wasapi = "0.27.0"
+windows = { version = "0.62.2", features = [
+    "Win32_Foundation",
+    "Win32_Graphics_Dwm",
+    "Win32_Graphics_Gdi",
+    "Win32_UI_HiDpi",
+    "Win32_Media_MediaFoundation",
+    "Win32_Media_KernelStreaming",
+    "Win32_System_Com",
+    "Win32_System_Console",
+    "Win32_System_SystemInformation",
+    "Win32_System_Time",
+    "Win32_UI_WindowsAndMessaging",
+    "Win32_Devices_Properties",
+    "Win32_System_Variant",
+    "Win32_System_LibraryLoader",
+] }
+windows-capture = "2.0.1"
+
+# ---------------------------------------------------------------------------
+# macOS + Linux: FFmpeg based backend
+# ---------------------------------------------------------------------------
+[target.'cfg(unix)'.dependencies]
+libc = "0.2.190"
+
+[target.'cfg(any(target_os = "macos", target_os = "linux"))'.dependencies]
+global-hotkey = "0.9.0"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+ashpd = { version = "0.13.13", default-features = false, features = [
+    "async-io",
+    "screencast",
+    "screenshot",
+] }
+pollster = "0.4.0"
+x11rb = { version = "0.13.2", features = ["randr", "resource_manager"] }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+panic = "abort"
+strip = true
+
+# ---------------------------------------------------------------------------
+# Linux packages (cargo deb / cargo generate-rpm)
+# ---------------------------------------------------------------------------
+[package.metadata.deb]
+name = "screenrec"
+maintainer = "ScreenRec"
+copyright = "2026, ScreenRec"
+license-file = ["LICENSE", "0"]
+extended-description = """\
+ScreenRec records your screen, a single window or a region with system audio, \
+microphone and an optional webcam overlay. On Wayland desktops it uses the \
+standard screen-sharing portal."""
+section = "video"
+priority = "optional"
+depends = "$auto, ffmpeg"
+recommends = "gstreamer1.0-tools, gstreamer1.0-pipewire, pulseaudio-utils | pipewire-pulse, xdg-desktop-portal"
+assets = [
+    ["target/release/screen_rec", "usr/bin/screenrec", "755"],
+    ["packaging/linux/screenrec.desktop", "usr/share/applications/screenrec.desktop", "644"],
+    ["resources/icon_256.png", "usr/share/icons/hicolor/256x256/apps/screenrec.png", "644"],
+    ["packaging/linux/screenrec.metainfo.xml", "usr/share/metainfo/screenrec.metainfo.xml", "644"],
+]
+
+[package.metadata.generate-rpm]
+name = "screenrec"
+assets = [
+    { source = "target/release/screen_rec", dest = "/usr/bin/screenrec", mode = "755" },
+    { source = "packaging/linux/screenrec.desktop", dest = "/usr/share/applications/screenrec.desktop", mode = "644" },
+    { source = "resources/icon_256.png", dest = "/usr/share/icons/hicolor/256x256/apps/screenrec.png", mode = "644" },
+    { source = "packaging/linux/screenrec.metainfo.xml", dest = "/usr/share/metainfo/screenrec.metainfo.xml", mode = "644" },
+]
+
+[package.metadata.generate-rpm.requires]
+# File dependency: satisfied by both Fedora's ffmpeg-free and RPM Fusion's ffmpeg.
+"/usr/bin/ffmpeg" = "*"

@@ -1,0 +1,15 @@
+# Rust build output
+/target/
+**/*.rs.bk
+
+# Packaging / build artifacts
+/dist/
+/ScreenRec-Setup.exe
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Editor/swap files
+*.swp
+*~
