@@ -1,0 +1,116 @@
+name: Build & release
+
+# Builds installable packages for Windows, macOS and Linux on every push and
+# pull request. Pushing a tag such as `v0.2.0` also publishes a GitHub release
+# with all packages attached.
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  windows:
+    name: Windows (installer + portable)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Install Inno Setup
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe")) {
+            choco install innosetup -y --no-progress
+          }
+      - name: Build and package
+        shell: cmd
+        run: package.bat
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: |
+            dist/ScreenRec-Setup-*.exe
+            dist/ScreenRec-Portable-*.zip
+          if-no-files-found: error
+
+  linux:
+    name: Linux (.deb, .rpm, .tar.gz)
+    # The oldest supported runner keeps the glibc requirement low.
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            pkg-config libx11-dev libxcursor-dev libxrandr-dev libxi-dev \
+            libxkbcommon-dev libwayland-dev libgl1-mesa-dev libegl1-mesa-dev
+      - name: Build
+        run: cargo build --release
+      - name: Test
+        run: cargo test --release
+      - name: Install packagers
+        run: cargo install --locked cargo-deb cargo-generate-rpm
+      - name: Package
+        run: |
+          version=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)
+          mkdir -p dist
+          cargo deb --no-build --output dist/
+          cargo generate-rpm --output dist/
+          staging="screenrec-$version-linux-x86_64"
+          mkdir -p "$staging"
+          cp target/release/screen_rec "$staging/screenrec"
+          cp packaging/linux/screenrec.desktop packaging/linux/install.sh packaging/linux/uninstall.sh "$staging/"
+          cp resources/icon_256.png "$staging/screenrec.png"
+          chmod +x "$staging/install.sh" "$staging/uninstall.sh" "$staging/screenrec"
+          tar -czf "dist/$staging.tar.gz" "$staging"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: |
+            dist/*.deb
+            dist/*.rpm
+            dist/*.tar.gz
+          if-no-files-found: error
+
+  macos:
+    name: macOS (universal .dmg)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+      - uses: Swatinem/rust-cache@v2
+      - name: Build universal app and disk image
+        run: sh packaging/macos/bundle.sh --universal
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos
+          path: dist/*.dmg
+          if-no-files-found: error
+
+  release:
+    name: Publish release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [windows, linux, macos]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*
+          generate_release_notes: true
