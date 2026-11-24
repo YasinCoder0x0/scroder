@@ -18,4 +18,4 @@ mod unix;
 pub use self::unix::*;
 
 #[cfg(not(any(windows, target_os = "linux", target_os = "macos")))]
-compile_error!("ScreenRec supports Windows, macOS and Linux.");
+compile_error!("Scroder supports Windows, macOS and Linux.");

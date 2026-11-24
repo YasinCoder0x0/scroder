@@ -174,13 +174,13 @@ fn has_screen_permission() -> bool {
 pub fn base_capabilities() -> Capabilities {
     let mut missing = Vec::new();
     if !has_screen_permission() {
-        // Shows the system prompt once and adds ScreenRec to the settings list.
+        // Shows the system prompt once and adds Scroder to the settings list.
         let granted = unsafe { CGRequestScreenCaptureAccess() != 0 };
         if !granted {
             missing.push(MissingDependency {
                 title: "Screen Recording permission needed".into(),
-                detail: "Allow ScreenRec in System Settings › Privacy & Security › Screen & \
-                         System Audio Recording, then quit and reopen ScreenRec."
+                detail: "Allow Scroder in System Settings › Privacy & Security › Screen & \
+                         System Audio Recording, then quit and reopen Scroder."
                     .into(),
                 install_command: None,
             });
@@ -210,7 +210,7 @@ pub fn base_capabilities() -> Capabilities {
 pub fn ffmpeg_missing() -> MissingDependency {
     MissingDependency {
         title: "FFmpeg is required".into(),
-        detail: "ScreenRec uses FFmpeg to capture and encode on macOS. Install it with Homebrew \
+        detail: "Scroder uses FFmpeg to capture and encode on macOS. Install it with Homebrew \
                  (https://brew.sh), then click Check again."
             .into(),
         install_command: Some("brew install ffmpeg".into()),
@@ -221,8 +221,8 @@ pub fn explain_ffmpeg_error(tail: &str) -> String {
     let lower = tail.to_ascii_lowercase();
     if !has_screen_permission() || lower.contains("not authorized") || lower.contains("permission")
     {
-        "ScreenRec is not allowed to record the screen. Enable it in System Settings › Privacy & \
-         Security › Screen & System Audio Recording, then reopen ScreenRec."
+        "Scroder is not allowed to record the screen. Enable it in System Settings › Privacy & \
+         Security › Screen & System Audio Recording, then reopen Scroder."
             .into()
     } else if lower.contains("framerate") && lower.contains("not supported") {
         format!("The camera does not support 30 fps. Turn off the webcam overlay.\n{tail}")
@@ -525,8 +525,8 @@ fn ensure_permission() -> Result<()> {
         CGRequestScreenCaptureAccess();
     }
     bail!(
-        "ScreenRec needs the Screen Recording permission. Enable it in System Settings › Privacy & \
-         Security › Screen & System Audio Recording, then reopen ScreenRec."
+        "Scroder needs the Screen Recording permission. Enable it in System Settings › Privacy & \
+         Security › Screen & System Audio Recording, then reopen Scroder."
     )
 }
 
@@ -619,7 +619,7 @@ pub fn grab(target: &CaptureTarget) -> Result<PreviewFrame> {
     let CaptureTarget::Display(display) = target else {
         bail!("previews are only available for displays");
     };
-    let temp = std::env::temp_dir().join(format!("screenrec-preview-{}.png", std::process::id()));
+    let temp = std::env::temp_dir().join(format!("scroder-preview-{}.png", std::process::id()));
     let mut command = screencapture();
     command.arg(format!("-D{}", display.index + 1)).arg(&temp);
     run_screencapture(command)?;

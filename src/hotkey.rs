@@ -1,7 +1,7 @@
 //! System-wide F9 / F10 / F11 shortcuts.
 //!
 //! Each listener wakes the UI when a key is pressed, so shortcuts work while
-//! ScreenRec is minimized or in the background.
+//! Scroder is minimized or in the background.
 
 use std::sync::mpsc::{self, Receiver, Sender};
 
@@ -71,7 +71,7 @@ mod imp {
             let stop = Arc::new(AtomicBool::new(false));
             let thread_stop = stop.clone();
             let join = thread::Builder::new()
-                .name("screenrec-hotkeys".to_string())
+                .name("scroder-hotkeys".to_string())
                 .spawn(move || {
                     let mut was_down = [false; KEYS.len()];
                     while !thread_stop.load(Ordering::Relaxed) {

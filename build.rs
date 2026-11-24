@@ -3,8 +3,8 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 
 fn main() {
-    println!("cargo:rerun-if-changed=resources/screen_rec.rc");
-    println!("cargo:rerun-if-changed=resources/ScreenRec.ico");
+    println!("cargo:rerun-if-changed=resources/scroder.rc");
+    println!("cargo:rerun-if-changed=resources/Scroder.ico");
 
     if env::var("CARGO_CFG_TARGET_OS").as_deref() != Ok("windows") {
         return;
@@ -16,14 +16,14 @@ fn main() {
     };
 
     let out_dir = PathBuf::from(env::var("OUT_DIR").expect("OUT_DIR is set by cargo"));
-    let res_file = out_dir.join("screen_rec.res");
+    let res_file = out_dir.join("scroder.res");
 
     let status = Command::new(&rc)
         .current_dir(env::var("CARGO_MANIFEST_DIR").unwrap_or_else(|_| ".".to_string()))
         .arg("/nologo")
         .arg("/fo")
         .arg(&res_file)
-        .arg("resources\\screen_rec.rc")
+        .arg("resources\\scroder.rc")
         .status();
 
     match status {

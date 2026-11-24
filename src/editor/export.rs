@@ -213,7 +213,7 @@ pub fn start(job: ExportJob, ctx: egui::Context) -> Result<ExportHandle> {
     let thread_cancel = cancel.clone();
     let thread_output = output.clone();
     std::thread::Builder::new()
-        .name("screenrec-export".into())
+        .name("scroder-export".into())
         .spawn(move || {
             let stderr = child.stderr.take();
             let errors = std::thread::spawn(move || {
@@ -321,18 +321,18 @@ mod tests {
         assert!(args.windows(2).any(|w| w[0] == "-crf" && w[1] == "22"));
     }
 
-    /// Renders a real project. Needs FFmpeg (or `SCREENREC_FFMPEG`) and
-    /// `SCREENREC_TEST_VIDEOS` = two video paths separated by `;`.
+    /// Renders a real project. Needs FFmpeg (or `SCRODER_FFMPEG`) and
+    /// `SCRODER_TEST_VIDEOS` = two video paths separated by `;`.
     #[test]
     #[ignore = "needs ffmpeg and sample videos"]
     fn renders_real_export() {
-        let videos = std::env::var("SCREENREC_TEST_VIDEOS").expect("SCREENREC_TEST_VIDEOS");
+        let videos = std::env::var("SCRODER_TEST_VIDEOS").expect("SCRODER_TEST_VIDEOS");
         let sources: Vec<PathBuf> = videos.split(';').map(PathBuf::from).collect();
         let infos: Vec<_> = sources
             .iter()
             .map(|s| super::super::media::probe(s).unwrap())
             .collect();
-        let output = std::env::temp_dir().join("screenrec-export-test.mp4");
+        let output = std::env::temp_dir().join("scroder-export-test.mp4");
         let job = ExportJob {
             clips: vec![
                 ExportClip {

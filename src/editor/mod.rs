@@ -261,7 +261,7 @@ impl Editor {
                 let _ = std::fs::create_dir_all(&dir);
                 let Some(mut path) = rfd::FileDialog::new()
                     .set_title("Save project")
-                    .add_filter("ScreenRec project", &[PROJECT_EXTENSION])
+                    .add_filter("Scroder project", &[PROJECT_EXTENSION])
                     .set_directory(&dir)
                     .set_file_name(format!("{}.{PROJECT_EXTENSION}", self.project_name()))
                     .save_file()
@@ -314,7 +314,7 @@ impl Editor {
         let dir = Self::projects_dir();
         let mut dialog = rfd::FileDialog::new()
             .set_title("Open project")
-            .add_filter("ScreenRec project", &[PROJECT_EXTENSION]);
+            .add_filter("Scroder project", &[PROJECT_EXTENSION]);
         if dir.is_dir() {
             dialog = dialog.set_directory(dir);
         }
@@ -398,7 +398,7 @@ impl Editor {
         let tx = self.loader_tx.clone();
         let ctx = ctx.clone();
         std::thread::Builder::new()
-            .name("screenrec-import".into())
+            .name("scroder-import".into())
             .spawn(move || {
                 let info = media::probe(&path).map_err(|e| format!("{e:#}"));
                 let ok = info.clone().ok();
@@ -938,7 +938,7 @@ impl Editor {
                         self.audio_preview = AudioPreview::available();
                         if !self.tools_ok {
                             self.notice = Some(
-                                "FFmpeg still wasn't found. You may need to restart ScreenRec."
+                                "FFmpeg still wasn't found. You may need to restart Scroder."
                                     .into(),
                             );
                         }

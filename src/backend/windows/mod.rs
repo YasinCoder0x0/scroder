@@ -280,7 +280,7 @@ impl Drop for ActiveRecording {
 
 fn finish_encoder(encoder: VideoEncoder) -> Result<()> {
     let handle = std::thread::Builder::new()
-        .name("screenrec-finalize".to_string())
+        .name("scroder-finalize".to_string())
         .spawn(move || {
             let _ = wasapi::initialize_mta();
             encoder.finish().map_err(|err| anyhow::anyhow!("{err}"))

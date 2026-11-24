@@ -85,7 +85,7 @@ pub fn prepare(window: bool, cursor: bool) -> Result<PreparedVideo> {
     let (cmd_tx, cmd_rx) = mpsc::channel::<PortalCommand>();
 
     let worker = std::thread::Builder::new()
-        .name("screenrec-portal".into())
+        .name("scroder-portal".into())
         .spawn(move || {
             pollster::block_on(async move {
                 let setup = async {
@@ -276,7 +276,7 @@ pub fn missing_dependencies() -> Vec<MissingDependency> {
     }
     vec![MissingDependency {
         title: "GStreamer PipeWire support is required".into(),
-        detail: "On Wayland, ScreenRec receives the screen through PipeWire using GStreamer. \
+        detail: "On Wayland, Scroder receives the screen through PipeWire using GStreamer. \
                  Install the GStreamer tools and PipeWire plugin, then click Check again."
             .into(),
         install_command: linux::install_command(

@@ -22,7 +22,7 @@ use crate::theme::{self, pal};
 use crate::util;
 
 const HISTORY_PREVIEW: usize = 5;
-const RECORDING_BAR_TITLE: &str = "ScreenRec recording controls";
+const RECORDING_BAR_TITLE: &str = "Scroder recording controls";
 /// Outer page margin and the gap between columns.
 pub(crate) const GUTTER: f32 = 16.0;
 /// Height shared by buttons, inputs and dropdowns that sit side by side.
@@ -544,7 +544,7 @@ impl App {
 
         let (tx, rx) = mpsc::channel();
         std::thread::Builder::new()
-            .name("screenrec-start".to_string())
+            .name("scroder-start".to_string())
             .spawn(move || {
                 let result = backend::start(options).map_err(|e| format!("{e:#}"));
                 let _ = tx.send(result);
@@ -559,7 +559,7 @@ impl App {
             self.pending_duration = Some(recording.elapsed().as_secs_f64());
             let (tx, rx) = mpsc::channel();
             std::thread::Builder::new()
-                .name("screenrec-stop".to_string())
+                .name("scroder-stop".to_string())
                 .spawn(move || {
                     let result = recording.stop().map_err(|e| format!("{e:#}"));
                     let _ = tx.send(result);
@@ -610,7 +610,7 @@ impl App {
 
         let (tx, rx) = mpsc::channel();
         std::thread::Builder::new()
-            .name("screenrec-screenshot".to_string())
+            .name("scroder-screenshot".to_string())
             .spawn(move || {
                 let result =
                     backend::screenshot(&target, region, path).map_err(|err| format!("{err:#}"));
@@ -655,7 +655,7 @@ impl App {
 
         let (tx, rx) = mpsc::channel();
         std::thread::Builder::new()
-            .name("screenrec-browse".to_string())
+            .name("scroder-browse".to_string())
             .spawn(move || {
                 let _ = tx.send(shell::pick_folder(&current, title));
             })
@@ -731,7 +731,7 @@ impl App {
         });
 
         self.region_picker = Some(RegionPicker {
-            viewport_id: egui::ViewportId::from_hash_of("screenrec-region-picker"),
+            viewport_id: egui::ViewportId::from_hash_of("scroder-region-picker"),
             monitor,
             start: None,
             current: None,
@@ -1374,7 +1374,7 @@ impl App {
         let (tx, rx) = mpsc::channel();
         let wake = ctx.clone();
         std::thread::Builder::new()
-            .name("screenrec-thumbnail".into())
+            .name("scroder-thumbnail".into())
             .spawn(move || {
                 let result = backend::grab(&target)
                     .map(|frame| downscale(&frame, 480))
@@ -1697,7 +1697,7 @@ impl App {
                     Icon::Info,
                     &format!(
                         "When you start recording, your desktop asks which {what} to share. \
-                         ScreenRec remembers the choice for next time."
+                         Scroder remembers the choice for next time."
                     ),
                     p.text_soft,
                 );
@@ -2053,7 +2053,7 @@ impl App {
                 ui,
                 Icon::Window,
                 "Minimize while recording",
-                "Keep ScreenRec out of the capture",
+                "Keep Scroder out of the capture",
                 &mut self.minimize_on_record,
             );
 
@@ -2956,7 +2956,7 @@ impl App {
                         );
                         ui.label(
                             RichText::new(if stopping {
-                                "ScreenRec closes as soon as the file is written."
+                                "Scroder closes as soon as the file is written."
                             } else {
                                 "Stop and save it before quitting?"
                             })
@@ -3056,7 +3056,7 @@ impl App {
             .with_inner_size(size);
 
         let mut action = None;
-        let bar_id = egui::ViewportId::from_hash_of("screenrec-recording-bar");
+        let bar_id = egui::ViewportId::from_hash_of("scroder-recording-bar");
         ctx.show_viewport_immediate(bar_id, builder, |ui, _class| {
             let p = pal();
             let ctx = ui.ctx().clone();
@@ -3095,7 +3095,7 @@ impl App {
                                 .color(p.muted),
                         );
                         ui.with_layout(egui::Layout::right_to_left(Align::Center), |ui| {
-                            if icon_button_sized(ui, Icon::Open, "Show ScreenRec", 34.0).clicked() {
+                            if icon_button_sized(ui, Icon::Open, "Show Scroder", 34.0).clicked() {
                                 action = Some(2);
                             }
                             if button_sized(
@@ -4415,7 +4415,7 @@ fn load_prefs() -> Prefs {
 
 fn load_logo_texture(ctx: &egui::Context) -> egui::TextureHandle {
     let image = egui::ColorImage::from_rgba_unmultiplied([256, 256], WINDOW_ICON);
-    ctx.load_texture("screenrec_logo", image, egui::TextureOptions::LINEAR)
+    ctx.load_texture("scroder_logo", image, egui::TextureOptions::LINEAR)
 }
 
 pub(crate) fn fmt_duration(duration: Duration) -> String {
@@ -4441,7 +4441,7 @@ pub fn run(open: Vec<PathBuf>) -> anyhow::Result<()> {
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
             .with_title(crate::APP_NAME)
-            .with_app_id("screenrec")
+            .with_app_id("scroder")
             .with_icon(window_icon())
             .with_inner_size([1120.0, 780.0])
             .with_min_inner_size([980.0, 640.0])

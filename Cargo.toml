@@ -1,12 +1,11 @@
 [package]
-name = "screen_rec"
+name = "scroder"
 version = "0.2.0"
 edition = "2021"
 description = "A fast, minimal, high-quality screen recorder for Windows, macOS and Linux"
-authors = ["ScreenRec"]
+authors = ["Scroder"]
 license = "MIT"
 build = "build.rs"
-homepage = "https://github.com/YasinCoder0x0/scroder"
 repository = "https://github.com/YasinCoder0x0/scroder"
 
 [dependencies]
@@ -78,12 +77,12 @@ strip = true
 # Linux packages (cargo deb / cargo generate-rpm)
 # ---------------------------------------------------------------------------
 [package.metadata.deb]
-name = "screenrec"
-maintainer = "ScreenRec"
-copyright = "2026, ScreenRec"
+name = "scroder"
+maintainer = "Scroder"
+copyright = "2026, Scroder"
 license-file = ["LICENSE", "0"]
 extended-description = """\
-ScreenRec records your screen, a single window or a region with system audio, \
+Scroder records your screen, a single window or a region with system audio, \
 microphone and an optional webcam overlay. On Wayland desktops it uses the \
 standard screen-sharing portal."""
 section = "video"
@@ -91,19 +90,19 @@ priority = "optional"
 depends = "$auto, ffmpeg"
 recommends = "gstreamer1.0-tools, gstreamer1.0-pipewire, pulseaudio-utils | pipewire-pulse, xdg-desktop-portal"
 assets = [
-    ["target/release/screen_rec", "usr/bin/screenrec", "755"],
-    ["packaging/linux/screenrec.desktop", "usr/share/applications/screenrec.desktop", "644"],
-    ["resources/icon_256.png", "usr/share/icons/hicolor/256x256/apps/screenrec.png", "644"],
-    ["packaging/linux/screenrec.metainfo.xml", "usr/share/metainfo/screenrec.metainfo.xml", "644"],
+    ["target/release/scroder", "usr/bin/scroder", "755"],
+    ["packaging/linux/scroder.desktop", "usr/share/applications/scroder.desktop", "644"],
+    ["resources/icon_256.png", "usr/share/icons/hicolor/256x256/apps/scroder.png", "644"],
+    ["packaging/linux/scroder.metainfo.xml", "usr/share/metainfo/scroder.metainfo.xml", "644"],
 ]
 
 [package.metadata.generate-rpm]
-name = "screenrec"
+name = "scroder"
 assets = [
-    { source = "target/release/screen_rec", dest = "/usr/bin/screenrec", mode = "755" },
-    { source = "packaging/linux/screenrec.desktop", dest = "/usr/share/applications/screenrec.desktop", mode = "644" },
-    { source = "resources/icon_256.png", dest = "/usr/share/icons/hicolor/256x256/apps/screenrec.png", mode = "644" },
-    { source = "packaging/linux/screenrec.metainfo.xml", dest = "/usr/share/metainfo/screenrec.metainfo.xml", mode = "644" },
+    { source = "target/release/scroder", dest = "/usr/bin/scroder", mode = "755" },
+    { source = "packaging/linux/scroder.desktop", dest = "/usr/share/applications/scroder.desktop", mode = "644" },
+    { source = "resources/icon_256.png", dest = "/usr/share/icons/hicolor/256x256/apps/scroder.png", mode = "644" },
+    { source = "packaging/linux/scroder.metainfo.xml", dest = "/usr/share/metainfo/scroder.metainfo.xml", mode = "644" },
 ]
 
 [package.metadata.generate-rpm.requires]

@@ -16,7 +16,7 @@ use std::time::{Duration, Instant};
 use anyhow::{anyhow, Result};
 use media::{CaptureTarget, Codec, RecordingOptions, Region};
 
-pub const APP_NAME: &str = "ScreenRec";
+pub const APP_NAME: &str = "Scroder";
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[derive(Default)]
@@ -41,10 +41,10 @@ struct Args {
 
 fn print_help() {
     println!(
-        r#"ScreenRec {VERSION} - Fast, high-quality screen recorder for Windows, macOS and Linux
+        r#"Scroder {VERSION} - Fast, high-quality screen recorder for Windows, macOS and Linux
 
 USAGE:
-    screenrec [OPTIONS]
+    scroder [OPTIONS]
 
 Running without options opens the graphical interface.
 
@@ -154,7 +154,7 @@ fn main() {
     }
     if args.version {
         attach_console();
-        println!("ScreenRec {VERSION}");
+        println!("Scroder {VERSION}");
         return;
     }
     if args.list {
@@ -222,7 +222,7 @@ fn show_error_dialog(message: &str) {
     use windows::core::HSTRING;
     use windows::Win32::UI::WindowsAndMessaging::{MessageBoxW, MB_ICONERROR, MB_OK};
     let text = HSTRING::from(message);
-    let caption = HSTRING::from("ScreenRec - Error");
+    let caption = HSTRING::from("Scroder - Error");
     unsafe {
         MessageBoxW(None, &text, &caption, MB_OK | MB_ICONERROR);
     }
@@ -231,7 +231,7 @@ fn show_error_dialog(message: &str) {
 #[cfg(not(windows))]
 fn show_error_dialog(message: &str) {
     let _ = rfd::MessageDialog::new()
-        .set_title("ScreenRec - Error")
+        .set_title("Scroder - Error")
         .set_description(message)
         .set_level(rfd::MessageLevel::Error)
         .show();

@@ -1,4 +1,4 @@
-# ScreenRec
+# Scroder
 
 A fast, lightweight screen recorder **and video editor** for **Windows, macOS and Linux**.
 
@@ -10,7 +10,7 @@ A fast, lightweight screen recorder **and video editor** for **Windows, macOS an
   reorder, duplicate, delete, adjust the volume of or mute clips, with live preview,
   thumbnail and waveform timeline, undo/redo and MP4 export. Projects save as
   `.srproj` files (Ctrl+S / Ctrl+O).
-- A compact recording bar (timer, pause, stop) while ScreenRec is minimized. On
+- A compact recording bar (timer, pause, stop) while Scroder is minimized. On
   Windows it is excluded from the capture, so it never shows up in your videos.
 - A dark studio interface with Inter typography.
 
@@ -21,8 +21,8 @@ Download the package for your system from the
 
 ### Windows 10 (1809+) / 11
 
-Run `ScreenRec-Setup-<version>.exe`, or unzip the portable build and run
-`ScreenRec.exe`. Recording works out of the box (hardware accelerated).
+Run `Scroder-Setup-<version>.exe`, or unzip the portable build and run
+`Scroder.exe`. Recording works out of the box (hardware accelerated).
 
 The editor uses FFmpeg. If it is missing, the Edit tab shows the one-line install
 command:
@@ -33,26 +33,26 @@ winget install --id Gyan.FFmpeg -e
 
 ### macOS 11+
 
-1. Open `ScreenRec-<version>-macOS-universal.dmg` and drag **ScreenRec** to
+1. Open `Scroder-<version>-macOS-universal.dmg` and drag **Scroder** to
    Applications. The build is not notarized, so the first time
    right-click the app → **Open**.
 2. Install FFmpeg: `brew install ffmpeg` (see <https://brew.sh>).
-3. On first launch, allow ScreenRec under **System Settings › Privacy & Security ›
+3. On first launch, allow Scroder under **System Settings › Privacy & Security ›
    Screen & System Audio Recording**, then reopen it.
 
 macOS cannot record system audio directly. Install a free loopback driver such as
-[BlackHole](https://github.com/ExistentialAudio/BlackHole) and ScreenRec will
+[BlackHole](https://github.com/ExistentialAudio/BlackHole) and Scroder will
 detect it automatically.
 
 ### Linux (X11 and Wayland)
 
 | Distribution | Install |
 | --- | --- |
-| Debian, Ubuntu, Mint, Pop!_OS | `sudo apt install ./screenrec_<version>_amd64.deb` |
-| Fedora, openSUSE | `sudo dnf install ./screenrec-<version>.x86_64.rpm` |
-| Any distribution | extract `screenrec-<version>-linux-x86_64.tar.gz` and run `./install.sh` |
+| Debian, Ubuntu, Mint, Pop!_OS | `sudo apt install ./scroder_<version>_amd64.deb` |
+| Fedora, openSUSE | `sudo dnf install ./scroder-<version>.x86_64.rpm` |
+| Any distribution | extract `scroder-<version>-linux-x86_64.tar.gz` and run `./install.sh` |
 
-ScreenRec needs **FFmpeg** (pulled in automatically by the `.deb`/`.rpm`). On
+Scroder needs **FFmpeg** (pulled in automatically by the `.deb`/`.rpm`). On
 **Wayland** it records through the desktop's screen-sharing dialog and also needs
 GStreamer's PipeWire plugin:
 
@@ -61,17 +61,17 @@ sudo apt install gstreamer1.0-tools gstreamer1.0-pipewire gstreamer1.0-plugins-g
 ```
 
 Wayland does not allow global shortcuts or picking a region; F9/F10/F11 work
-while ScreenRec is focused.
+while Scroder is focused.
 
 ## Command line
 
 ```text
-screenrec                       open the app
-screenrec --edit video.mp4      open a video in the editor
-screenrec project.srproj        open a saved editor project
-screenrec --list                list displays, windows and cameras
-screenrec --seconds 10 --out clip.mp4 --monitor 1 --mic
-screenrec --help                all options
+scroder                       open the app
+scroder --edit video.mp4      open a video in the editor
+scroder project.srproj        open a saved editor project
+scroder --list                list displays, windows and cameras
+scroder --seconds 10 --out clip.mp4 --monitor 1 --mic
+scroder --help                all options
 ```
 
 ## How it works
@@ -83,8 +83,8 @@ screenrec --help                all options
 | Audio | WASAPI | AVFoundation | PulseAudio / PipeWire | PulseAudio / PipeWire |
 | Editor | FFmpeg | FFmpeg | FFmpeg | FFmpeg |
 
-Settings and history are stored in `%APPDATA%\ScreenRec`,
-`~/Library/Application Support/ScreenRec` or `~/.config/screenrec`.
+Settings and history are stored in `%APPDATA%\Scroder`,
+`~/Library/Application Support/Scroder` or `~/.config/scroder`.
 
 ## Build from source
 
@@ -110,4 +110,3 @@ font is licensed under the SIL Open Font License (`resources/fonts/Inter-LICENSE
 ## License
 
 MIT
-# scroder

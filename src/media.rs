@@ -279,7 +279,7 @@ pub struct Capabilities {
     pub encoder_label: String,
     pub window_capture: bool,
     pub region_capture: bool,
-    /// The source is chosen in a system dialog instead of in ScreenRec.
+    /// The source is chosen in a system dialog instead of in Scroder.
     pub portal_source: bool,
     pub system_audio: bool,
     /// Explains why system audio is unavailable or what it needs.

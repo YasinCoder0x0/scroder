@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generates the ScreenRec application icon (ICO, PNGs and raw RGBA for egui).
+"""Generates the Scroder application icon (ICO, PNGs and raw RGBA for egui).
 
 The script only uses the Python standard library so it can be re-run on any
 machine without extra tooling. Run it from the project root:
@@ -231,11 +231,11 @@ def write_png(path: str, size: int, ss: int = SS):
 
 def main():
     os.makedirs(RES, exist_ok=True)
-    build_ico(os.path.join(RES, "ScreenRec.ico"))
+    build_ico(os.path.join(RES, "Scroder.ico"))
     write_raw_rgba(os.path.join(RES, "icon_256.rgba"), 256)
     write_png(os.path.join(RES, "icon_256.png"), 256)
     write_png(os.path.join(RES, "icon_1024.png"), 1024, ss=1)
-    print("Generated resources/ScreenRec.ico, icon_256.rgba, icon_256.png, icon_1024.png")
+    print("Generated resources/Scroder.ico, icon_256.rgba, icon_256.png, icon_1024.png")
 
 
 if __name__ == "__main__":

@@ -159,7 +159,7 @@ pub fn start(options: WebcamOptions) -> Result<WebcamStream> {
     let (tx, rx) = mpsc::channel();
     let thread_inner = inner.clone();
     let handle = thread::Builder::new()
-        .name("screenrec-webcam".to_string())
+        .name("scroder-webcam".to_string())
         .spawn(move || run(thread_inner, options, tx))
         .map_err(|err| anyhow!("failed to spawn webcam thread: {err}"))?;
 

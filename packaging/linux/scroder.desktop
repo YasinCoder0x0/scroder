@@ -1,12 +1,12 @@
 [Desktop Entry]
 Type=Application
-Name=ScreenRec
+Name=Scroder
 GenericName=Screen Recorder
 Comment=Record your screen, a window or a region with audio and webcam
-Exec=screenrec
-Icon=screenrec
+Exec=scroder
+Icon=scroder
 Terminal=false
 Categories=AudioVideo;Video;Recorder;Utility;
 Keywords=screen;record;recorder;capture;screencast;video;screenshot;
 StartupNotify=true
-StartupWMClass=screenrec
+StartupWMClass=scroder

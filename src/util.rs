@@ -43,7 +43,7 @@ pub fn recordings_dir() -> PathBuf {
     let base = xdg_user_dir("XDG_VIDEOS_DIR").unwrap_or_else(|| home_dir().join("Videos"));
     #[cfg(windows)]
     let base = home_dir().join("Videos");
-    base.join("ScreenRec")
+    base.join("Scroder")
 }
 
 pub fn screenshots_dir() -> PathBuf {
@@ -51,15 +51,15 @@ pub fn screenshots_dir() -> PathBuf {
     let base = xdg_user_dir("XDG_PICTURES_DIR").unwrap_or_else(|| home_dir().join("Pictures"));
     #[cfg(not(target_os = "linux"))]
     let base = home_dir().join("Pictures");
-    base.join("ScreenRec")
+    base.join("Scroder")
 }
 
 pub fn config_dir() -> Option<PathBuf> {
     #[cfg(windows)]
     {
         std::env::var_os("APPDATA")
-            .map(|p| PathBuf::from(p).join("ScreenRec"))
-            .or_else(|| Some(home_dir().join("AppData").join("Roaming").join("ScreenRec")))
+            .map(|p| PathBuf::from(p).join("Scroder"))
+            .or_else(|| Some(home_dir().join("AppData").join("Roaming").join("Scroder")))
     }
     #[cfg(target_os = "macos")]
     {
@@ -67,7 +67,7 @@ pub fn config_dir() -> Option<PathBuf> {
             home_dir()
                 .join("Library")
                 .join("Application Support")
-                .join("ScreenRec"),
+                .join("Scroder"),
         )
     }
     #[cfg(target_os = "linux")]
@@ -76,7 +76,7 @@ pub fn config_dir() -> Option<PathBuf> {
             .map(PathBuf::from)
             .filter(|p| p.is_absolute())
             .unwrap_or_else(|| home_dir().join(".config"));
-        Some(base.join("screenrec"))
+        Some(base.join("scroder"))
     }
 }
 
@@ -90,7 +90,7 @@ pub fn unix_now() -> i64 {
 pub fn timestamped_path(dir: &Path, ext: &str) -> PathBuf {
     let (y, m, d, hh, mm, ss, ms) = local_parts();
     dir.join(format!(
-        "ScreenRec_{y:04}-{m:02}-{d:02}_{hh:02}-{mm:02}-{ss:02}_{ms:03}.{ext}"
+        "Scroder_{y:04}-{m:02}-{d:02}_{hh:02}-{mm:02}-{ss:02}_{ms:03}.{ext}"
     ))
 }
 

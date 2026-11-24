@@ -45,7 +45,7 @@ pub fn base_capabilities() -> Capabilities {
         hevc: false,
         global_hotkeys: !wayland,
         hotkey_note: wayland.then(|| {
-            "Wayland does not allow global shortcuts. F9, F10 and F11 work while ScreenRec is focused."
+            "Wayland does not allow global shortcuts. F9, F10 and F11 work while Scroder is focused."
                 .to_string()
         }),
         missing,
@@ -100,7 +100,7 @@ pub fn install_command(debian: &str, fedora: &str, arch: &str, suse: &str) -> Op
 pub fn ffmpeg_missing() -> MissingDependency {
     MissingDependency {
         title: "FFmpeg is required".into(),
-        detail: "ScreenRec uses FFmpeg to capture and encode on Linux. Install it with your \
+        detail: "Scroder uses FFmpeg to capture and encode on Linux. Install it with your \
                  package manager, then click Check again."
             .into(),
         install_command: install_command("ffmpeg", "ffmpeg-free", "ffmpeg", "ffmpeg"),
@@ -110,7 +110,7 @@ pub fn ffmpeg_missing() -> MissingDependency {
 pub fn explain_ffmpeg_error(tail: &str) -> String {
     let lower = tail.to_ascii_lowercase();
     if lower.contains("cannot open display") {
-        "Could not connect to the X11 display. Make sure ScreenRec runs inside your desktop session."
+        "Could not connect to the X11 display. Make sure Scroder runs inside your desktop session."
             .into()
     } else if lower.contains("unknown input format: 'pulse'") {
         "This FFmpeg build has no PulseAudio support, so audio cannot be recorded. \

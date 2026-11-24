@@ -1,5 +1,5 @@
 #!/bin/sh
-# Builds dist/ScreenRec.app and dist/ScreenRec-<version>-macOS.dmg.
+# Builds dist/Scroder.app and dist/Scroder-<version>-macOS.dmg.
 #
 #   packaging/macos/bundle.sh                 # native architecture
 #   packaging/macos/bundle.sh --universal     # Intel + Apple Silicon
@@ -16,39 +16,39 @@ if [ "${1:-}" = "--universal" ]; then
     cargo build --release --target aarch64-apple-darwin
     cargo build --release --target x86_64-apple-darwin
     mkdir -p target/universal
-    lipo -create -output target/universal/screen_rec \
-        target/aarch64-apple-darwin/release/screen_rec \
-        target/x86_64-apple-darwin/release/screen_rec
-    binary=target/universal/screen_rec
+    lipo -create -output target/universal/scroder \
+        target/aarch64-apple-darwin/release/scroder \
+        target/x86_64-apple-darwin/release/scroder
+    binary=target/universal/scroder
     arch=universal
 else
     cargo build --release
-    binary=target/release/screen_rec
+    binary=target/release/scroder
     arch=$(uname -m)
 fi
 
-app=dist/ScreenRec.app
+app=dist/Scroder.app
 rm -rf "$app"
 mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources"
-cp "$binary" "$app/Contents/MacOS/ScreenRec"
+cp "$binary" "$app/Contents/MacOS/Scroder"
 sed "s/@VERSION@/$version/g" packaging/macos/Info.plist > "$app/Contents/Info.plist"
 
 # Icon: the 1024 px master scaled into every .icns slot.
-iconset=$(mktemp -d)/ScreenRec.iconset
+iconset=$(mktemp -d)/Scroder.iconset
 mkdir -p "$iconset"
 for size in 16 32 128 256 512; do
     double=$((size * 2))
     sips -z $size $size resources/icon_1024.png --out "$iconset/icon_${size}x${size}.png" >/dev/null
     sips -z $double $double resources/icon_1024.png --out "$iconset/icon_${size}x${size}@2x.png" >/dev/null
 done
-iconutil -c icns "$iconset" -o "$app/Contents/Resources/ScreenRec.icns"
+iconutil -c icns "$iconset" -o "$app/Contents/Resources/Scroder.icns"
 
 codesign --force --deep --sign - "$app"
 
-dmg="dist/ScreenRec-$version-macOS-$arch.dmg"
+dmg="dist/Scroder-$version-macOS-$arch.dmg"
 staging=$(mktemp -d)
 cp -R "$app" "$staging/"
 ln -s /Applications "$staging/Applications"
 rm -f "$dmg"
-hdiutil create -volname "ScreenRec" -srcfolder "$staging" -ov -format UDZO "$dmg" >/dev/null
+hdiutil create -volname "Scroder" -srcfolder "$staging" -ov -format UDZO "$dmg" >/dev/null
 echo "Built $app and $dmg"

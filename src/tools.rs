@@ -40,7 +40,7 @@ fn is_executable(path: &Path) -> bool {
     }
 }
 
-/// Finds an executable: next to ScreenRec (bundled), on `PATH`, then in the
+/// Finds an executable: next to Scroder (bundled), on `PATH`, then in the
 /// usual package manager locations. GUI apps on macOS do not inherit the
 /// shell's `PATH` and Windows apps keep the `PATH` they started with, so
 /// common install folders are probed explicitly.
@@ -53,7 +53,7 @@ pub fn find_tool(name: &str) -> Option<PathBuf> {
             dirs.push(dir.to_path_buf());
             dirs.push(dir.join("ffmpeg"));
             dirs.push(dir.join("../Resources"));
-            dirs.push(dir.join("../lib/screenrec"));
+            dirs.push(dir.join("../lib/scroder"));
         }
     }
     if let Some(path) = std::env::var_os("PATH") {
@@ -106,7 +106,7 @@ pub fn find_tool(name: &str) -> Option<PathBuf> {
 }
 
 pub fn ffmpeg() -> Option<PathBuf> {
-    if let Some(custom) = std::env::var_os("SCREENREC_FFMPEG") {
+    if let Some(custom) = std::env::var_os("SCRODER_FFMPEG") {
         let custom = PathBuf::from(custom);
         if is_executable(&custom) {
             return Some(custom);

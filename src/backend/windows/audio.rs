@@ -57,7 +57,7 @@ pub fn start(
 ) -> AudioHandles {
     let stop = Arc::new(AtomicBool::new(false));
     let join = thread::Builder::new()
-        .name("screenrec-audio".to_string())
+        .name("scroder-audio".to_string())
         .spawn({
             let stop = stop.clone();
             move || {

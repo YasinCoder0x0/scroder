@@ -35,7 +35,7 @@ impl FrameWorker {
         let (tx, requests) = mpsc::channel::<FrameRequest>();
         let (done_tx, rx) = mpsc::channel();
         let join = std::thread::Builder::new()
-            .name("screenrec-preview".into())
+            .name("scroder-preview".into())
             .spawn(move || {
                 while let Ok(mut request) = requests.recv() {
                     // Skip to the newest request.

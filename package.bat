@@ -7,31 +7,31 @@ if not defined VERSION set "VERSION=0.0.0"
 
 echo.
 echo ============================================
-echo  ScreenRec - release packaging
+echo  Scroder - release packaging
 echo ============================================
 echo.
 
 call build.bat
 if errorlevel 1 (
-    echo [ScreenRec] Build failed.
+    echo [Scroder] Build failed.
     exit /b 1
 )
 
-if not exist "target\release\screen_rec.exe" (
-    echo [ScreenRec] target\release\screen_rec.exe was not produced.
+if not exist "target\release\scroder.exe" (
+    echo [Scroder] target\release\scroder.exe was not produced.
     exit /b 1
 )
 
 if exist "dist" rmdir /s /q "dist"
-mkdir "dist\ScreenRec"
+mkdir "dist\Scroder"
 
-copy /y "target\release\screen_rec.exe" "dist\ScreenRec\ScreenRec.exe" >nul
-copy /y "resources\ScreenRec.ico" "dist\ScreenRec\ScreenRec.ico" >nul
+copy /y "target\release\scroder.exe" "dist\Scroder\Scroder.exe" >nul
+copy /y "resources\Scroder.ico" "dist\Scroder\Scroder.ico" >nul
 
-echo [ScreenRec] Portable files assembled in dist\ScreenRec
+echo [Scroder] Portable files assembled in dist\Scroder
 
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-  "Compress-Archive -Path 'dist\ScreenRec\*' -DestinationPath 'dist\ScreenRec-Portable-!VERSION!.zip' -Force" >nul 2>nul
+  "Compress-Archive -Path 'dist\Scroder\*' -DestinationPath 'dist\Scroder-Portable-!VERSION!.zip' -Force" >nul 2>nul
 
 set "ISCC="
 for %%P in (
@@ -47,25 +47,25 @@ if not defined ISCC (
 )
 
 if defined ISCC (
-    echo [ScreenRec] Compiling installer with "!ISCC!" ...
-    "!ISCC!" /DMyAppVersion=!VERSION! "installer\screen_rec.iss"
+    echo [Scroder] Compiling installer with "!ISCC!" ...
+    "!ISCC!" /DMyAppVersion=!VERSION! "installer\scroder.iss"
     if errorlevel 1 (
-        echo [ScreenRec] Installer compilation failed.
+        echo [Scroder] Installer compilation failed.
         exit /b 1
     )
-    if exist "dist\ScreenRec-Setup-!VERSION!.exe" (
-        copy /y "dist\ScreenRec-Setup-!VERSION!.exe" "ScreenRec-Setup.exe" >nul
+    if exist "dist\Scroder-Setup-!VERSION!.exe" (
+        copy /y "dist\Scroder-Setup-!VERSION!.exe" "Scroder-Setup.exe" >nul
     )
 ) else (
-    echo [ScreenRec] Inno Setup was not found - installer was not compiled.
+    echo [Scroder] Inno Setup was not found - installer was not compiled.
     echo             Install it from https://jrsoftware.org/isinfo.php then run package.bat again.
 )
 
 echo.
-echo [ScreenRec] Done.
-echo   Portable app : dist\ScreenRec\ScreenRec.exe
-echo   Portable zip : dist\ScreenRec-Portable-!VERSION!.zip
-if exist "dist\ScreenRec-Setup-!VERSION!.exe" echo   Installer    : dist\ScreenRec-Setup-!VERSION!.exe
+echo [Scroder] Done.
+echo   Portable app : dist\Scroder\Scroder.exe
+echo   Portable zip : dist\Scroder-Portable-!VERSION!.zip
+if exist "dist\Scroder-Setup-!VERSION!.exe" echo   Installer    : dist\Scroder-Setup-!VERSION!.exe
 echo.
 
 exit /b 0

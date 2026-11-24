@@ -37,8 +37,8 @@ jobs:
         with:
           name: windows
           path: |
-            dist/ScreenRec-Setup-*.exe
-            dist/ScreenRec-Portable-*.zip
+            dist/Scroder-Setup-*.exe
+            dist/Scroder-Portable-*.zip
           if-no-files-found: error
 
   linux:
@@ -67,12 +67,12 @@ jobs:
           mkdir -p dist
           cargo deb --no-build --output dist/
           cargo generate-rpm --output dist/
-          staging="screenrec-$version-linux-x86_64"
+          staging="scroder-$version-linux-x86_64"
           mkdir -p "$staging"
-          cp target/release/screen_rec "$staging/screenrec"
-          cp packaging/linux/screenrec.desktop packaging/linux/install.sh packaging/linux/uninstall.sh "$staging/"
-          cp resources/icon_256.png "$staging/screenrec.png"
-          chmod +x "$staging/install.sh" "$staging/uninstall.sh" "$staging/screenrec"
+          cp target/release/scroder "$staging/scroder"
+          cp packaging/linux/scroder.desktop packaging/linux/install.sh packaging/linux/uninstall.sh "$staging/"
+          cp resources/icon_256.png "$staging/scroder.png"
+          chmod +x "$staging/install.sh" "$staging/uninstall.sh" "$staging/scroder"
           tar -czf "dist/$staging.tar.gz" "$staging"
       - uses: actions/upload-artifact@v4
         with:

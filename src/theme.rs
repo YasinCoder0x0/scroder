@@ -1,4 +1,4 @@
-//! The ScreenRec look: one dark "studio" theme, Inter typography and the
+//! The Scroder look: one dark "studio" theme, Inter typography and the
 //! #484BFF brand colour.
 
 use std::sync::Arc;

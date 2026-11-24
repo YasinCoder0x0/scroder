@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleName</key>
-    <string>ScreenRec</string>
+    <string>Scroder</string>
     <key>CFBundleDisplayName</key>
-    <string>ScreenRec</string>
+    <string>Scroder</string>
     <key>CFBundleIdentifier</key>
-    <string>com.screenrec.app</string>
+    <string>com.scroder.app</string>
     <key>CFBundleExecutable</key>
-    <string>ScreenRec</string>
+    <string>Scroder</string>
     <key>CFBundleIconFile</key>
-    <string>ScreenRec</string>
+    <string>Scroder</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
@@ -27,8 +27,8 @@
     <key>NSSupportsAutomaticGraphicsSwitching</key>
     <true/>
     <key>NSCameraUsageDescription</key>
-    <string>ScreenRec shows your camera as an overlay in recordings when you turn on the webcam bubble.</string>
+    <string>Scroder shows your camera as an overlay in recordings when you turn on the webcam bubble.</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>ScreenRec records your microphone when you turn on voice narration.</string>
+    <string>Scroder records your microphone when you turn on voice narration.</string>
 </dict>
 </plist>

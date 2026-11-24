@@ -466,7 +466,7 @@ fn interrupt(child: &Child) {
     }
 }
 
-/// Makes sure helper processes do not outlive ScreenRec.
+/// Makes sure helper processes do not outlive Scroder.
 pub(crate) fn process_setup(command: &mut Command) {
     #[cfg(target_os = "linux")]
     unsafe {

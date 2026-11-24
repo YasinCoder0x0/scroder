@@ -4,7 +4,7 @@ cd /d "%~dp0"
 
 where cargo >nul 2>nul
 if errorlevel 1 (
-    echo [ScreenRec] cargo was not found in PATH.
+    echo [Scroder] cargo was not found in PATH.
     echo Install Rust from https://rustup.rs and try again.
     exit /b 1
 )
@@ -38,13 +38,13 @@ if not defined VSCMD_ARG_TGT_ARCH (
 )
 
 if not defined VSCMD_ARG_TGT_ARCH (
-    echo [ScreenRec] Could not initialize the Visual Studio C++ build tools.
+    echo [Scroder] Could not initialize the Visual Studio C++ build tools.
     echo Install "Desktop development with C++" from the Visual Studio Installer.
     exit /b 1
 )
 
 if "%~1"=="" (
-    echo [ScreenRec] Building optimized release binary...
+    echo [Scroder] Building optimized release binary...
     cargo build --release
 ) else (
     cargo %*
